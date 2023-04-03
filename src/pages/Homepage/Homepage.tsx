@@ -11,8 +11,6 @@ export const Homepage = () => {
         <Col md={12}><Link to="#" className="h5 text-decoration-none text-uppercase text-light">Continue as Guest</Link></Col>
       </Row>
       <p>Photo by Paul Volkmer on Unsplash</p>
-
-        
     </Container>
   )
 }

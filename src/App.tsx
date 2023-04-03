@@ -11,7 +11,7 @@ function App() {
 
   return (
     <Router>
-        <div>
+        <div className="bg-dark min-vh-100">
           <Navigation />
             <Routes>
               <Route path="/space-image-app" element={<Homepage />} />
@@ -21,7 +21,6 @@ function App() {
               <Route path="/space-image-app/galleries" element={<Galleries />} />
             </Routes>
         </div>
-      
     </Router>
   
   )
