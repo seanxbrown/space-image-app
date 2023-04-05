@@ -1,9 +1,10 @@
 import { Container, Button, ButtonGroup } from "react-bootstrap"
 import { useState } from "react"
+import { Photo } from "./Photo"
 
 export const Search = () => {
 
-  const [images, setImages] = useState([])
+  const [photos, setPhotos] = useState<Object[] | undefined>([])
 
   async function getRandomImage() {
 
@@ -11,9 +12,9 @@ export const Search = () => {
 
       const data = await fetch(`https://api.nasa.gov/planetary/apod?count=1&api_key=${import.meta.env.VITE_API_KEY}`)
 
-      const imageData = await data.json()
+      const photoData = await data.json()
 
-      setImages(imageData)
+      setPhotos(photoData)
 
     } catch(e) {
       alert(e)
@@ -27,9 +28,9 @@ export const Search = () => {
 
     try {
       const data = await fetch(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=${import.meta.env.VITE_API_KEY}`)
-      const imageData = await data.json()
+      const photoData = await data.json()
 
-      setImages(imageData)
+      setPhotos([photoData])
     } catch(e) {
       alert(e)
     }
@@ -39,11 +40,16 @@ export const Search = () => {
   return (
     <Container>
       <h2 className="text-light">Search</h2>
-      <ButtonGroup id="search-button-container" className="align-self-center">
+      <ButtonGroup id="search-button-container" className="m-auto">
         <Button className="btn btn-primary" role="button" onClick={getRandomImage}>Random Image</Button>
         <Button className="btn btn-primary ms-1" role="button" onClick={getTodaysImage}>Today's Image</Button>
       </ButtonGroup>
-      
+      <Container id="search-results">
+        {photos && photos.map((photo: any) => {
+          return <Photo imgObject={photo} />
+        })}
+     
+      </Container>
     </Container>
   )
 }
