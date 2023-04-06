@@ -6,11 +6,26 @@ import { Search } from "./pages/Search/Search"
 import { Galleries } from "./pages/Galleries/Galleries"
 import { Navigation } from "./components/Navigation/Navigation"
 import "./App.css"
+import { useEffect, useState } from "react"
+import { auth, onAuthStateChanged } from "./config/firebaseConfig"
+import { AuthContext } from "./contexts/AuthContext"
 
 function App() {
+  const [user, setUser] = useState<Object | null>({})
+
+  useEffect(()=> {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+      } else {
+        return
+      }
+    });
+  }, [])
 
   return (
-    <Router>
+    <AuthContext.Provider value={user}>
+      <Router>
         <div className="bg-dark min-vh-100">
           <Navigation />
             <Routes>
@@ -21,7 +36,9 @@ function App() {
               <Route path="/space-image-app/galleries" element={<Galleries />} />
             </Routes>
         </div>
-    </Router>
+      </Router>
+    </AuthContext.Provider>
+    
   
   )
 }
