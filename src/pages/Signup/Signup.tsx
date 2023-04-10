@@ -11,8 +11,6 @@ export const Signup = () => {
     async function createUserAccount(e: FormEvent) {
         e.preventDefault()
 
-        //console.log(emailRef.current.value, passwordRef.current.value, passwordConRef.current.value)
-
         if (passwordRef.current!.value !== passwordConRef.current!.value) {
             alert("Password details do not match")
 
@@ -29,8 +27,6 @@ export const Signup = () => {
             }
     
         }
-        
-
         
     }
   return (
