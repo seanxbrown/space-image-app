@@ -14,11 +14,11 @@ function App() {
   const [user, setUser] = useState<Object | null>({})
 
   useEffect(()=> {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser)
       } else {
-        return
+        setUser(null)
       }
     });
   }, [])
