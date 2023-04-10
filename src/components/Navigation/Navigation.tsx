@@ -2,6 +2,7 @@ import { Navbar, Nav, Container } from "react-bootstrap"
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import { auth, signOut } from "../../config/firebaseConfig"
+import { Link } from "react-router-dom"
 
 export const Navigation = () => {
 
@@ -28,9 +29,9 @@ export const Navigation = () => {
             <Navbar.Toggle aria-controls="navbar-nav" />
             <Navbar.Collapse id="navbar-nav">
                 <Nav>
-                    <Nav.Link href="/space-image-app/">Home</Nav.Link>
-                    <Nav.Link href="/space-image-app/search">Search</Nav.Link>
-                    <Nav.Link href="/space-image-app/galleries">Galleries</Nav.Link>
+                    <Link className="nav-link" to="/space-image-app/">Home</Link>
+                    <Link className="nav-link" to="/space-image-app/search">Search</Link>
+                    <Link className="nav-link" to="/space-image-app/galleries">Galleries</Link>
                 </Nav>
                 { user && <Navbar.Text onClick={signUserOut}>Log Out</Navbar.Text>}
             </Navbar.Collapse>
