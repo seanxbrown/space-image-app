@@ -41,7 +41,7 @@ export const Login = () => {
                   <Form.Label>Password</Form.Label>
                   <Form.Control required type="password" id="loginPassword" ref={passwordRef}></Form.Control>
               </Form.Group>
-              <Button type="submit" disabled={user === null} className="w-100 mt-5 rounded-pill">Log in</Button>
+              <Button type="submit" disabled={user === null ? false : true} className="w-100 mt-5 rounded-pill">Log in</Button>
           </Form>
           <div className="d-flex flex-column">
             <p className="text-center text-muted">Don't have an account? <Link to="/space-image-app/signup">Sign up</Link></p>
