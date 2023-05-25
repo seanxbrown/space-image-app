@@ -9,6 +9,7 @@ import "./App.css"
 import { useEffect, useState } from "react"
 import { auth, onAuthStateChanged } from "./config/firebaseConfig"
 import { AuthContext } from "./contexts/AuthContext"
+import { PrivateRoute } from "./components/PrivateRoute"
 
 function App() {
   const [user, setUser] = useState<Object | null>({})
@@ -32,8 +33,11 @@ function App() {
               <Route path="/space-image-app" element={<Homepage />} />
               <Route path="/space-image-app/login" element={<Login />} />
               <Route path="/space-image-app/signup" element={<Signup />} />
-              <Route path="/space-image-app/search" element={<Search />} />
-              <Route path="/space-image-app/galleries" element={<Galleries />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="/space-image-app/search" element={<Search />} />
+                <Route path="/space-image-app/galleries" element={<Galleries />} />
+              </Route>
+              
             </Routes>
         </div>
       </Router>
