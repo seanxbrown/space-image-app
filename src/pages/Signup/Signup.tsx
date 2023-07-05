@@ -1,6 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { auth, createUserWithEmailAndPassword, db, collection, addDoc } from "../../config/firebaseConfig"
+import { auth, createUserWithEmailAndPassword, db, collection, addDoc, setDoc, doc, updateProfile } from "../../config/firebaseConfig"
 import { FormEvent, useRef, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 
@@ -19,8 +19,11 @@ export const Signup = () => {
 
         } else {
             try {
-                await createUserWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
-                await addUserToDB()
+                const {user: userCredentials} = await createUserWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
+                await updateProfile(userCredentials, {
+                    displayName: usernameRef.current!.value
+                })
+                await addUserToDB(userCredentials)
                 alert("Account created successfully");
                 
                 emailRef.current!.value = "";
@@ -36,13 +39,14 @@ export const Signup = () => {
         
     }
 
-    async function addUserToDB() {
+    async function addUserToDB({uid, displayName = "Unknown username", email}: any) {
         try {
-            await addDoc(collection(db, `users/${name}`), {
-                    name: usernameRef.current!.value,
-                    email: emailRef.current!.value,
+            await setDoc(doc(db, "users", uid ), {
+                    name: displayName,
+                    email: email,
                 }) 
 
+                
         } catch(e) {
             alert(e)
         }
@@ -53,7 +57,7 @@ export const Signup = () => {
           <Form className="w-75 mx-auto" onSubmit={createUserAccount}>
             <Form.Group>
                   <Form.Label>Username</Form.Label>
-                  <Form.Control required type="text" placeholder="AwesomeUser" maxLength="20" id="signupName" ref={usernameRef}></Form.Control>
+                  <Form.Control required type="text" placeholder="AwesomeUser" maxLength={20} id="signupName" ref={usernameRef}></Form.Control>
               </Form.Group>
               <Form.Group>
                   <Form.Label>Email Address</Form.Label>
