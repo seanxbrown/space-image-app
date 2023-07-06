@@ -7,12 +7,12 @@ import { Galleries } from "./pages/Galleries/Galleries"
 import { Navigation } from "./components/Navigation/Navigation"
 import "./App.css"
 import { useEffect, useState } from "react"
-import { auth, onAuthStateChanged } from "./config/firebaseConfig"
+import { auth, onAuthStateChanged, User } from "./config/firebaseConfig"
 import { AuthContext } from "./contexts/AuthContext"
 import { PrivateRoute } from "./components/PrivateRoute"
 
 function App() {
-  const [user, setUser] = useState<Object | null>({})
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(()=> {
     onAuthStateChanged(auth, (currentUser) => {

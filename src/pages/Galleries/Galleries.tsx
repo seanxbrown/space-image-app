@@ -2,19 +2,33 @@ import { useState, useEffect, useContext } from 'react'
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc } from "../../config/firebaseConfig"
 import { AuthContext } from '../../contexts/AuthContext'
 import { Button } from "react-bootstrap"
+import { v4 as uuidv4 } from 'uuid';
 
 export const Galleries = () => {
-  const [userGalleries, setUserGalleries] = useState([])
+  const [userGalleries, setUserGalleries] = useState<any>([])
   const user = useContext(AuthContext)
 
   async function getGalleries() {
+    try {
+      const galleriesFromDatabase = await getDocs(collection(db, "users", user!.uid, "galleries"))
+      const newUserGalleries: Array<any> = [];
+      galleriesFromDatabase.forEach(gallery => newUserGalleries.push(gallery.data()));
+      console.log(newUserGalleries)
+      setUserGalleries([...newUserGalleries])
+    }
+    catch(e) {
+      console.error(e)
+    }
 
   }
 
   async function createGallery() {
-    //for testing only
+    const galleryRef = collection(db, "users", user!.uid, "galleries")
 
-    /* 02/07/2023 - work out how to add data to a subcollection */
+    await addDoc(galleryRef, {
+      name: "Test Gallery Doc",
+      id: uuidv4()
+    })
 
 
   }

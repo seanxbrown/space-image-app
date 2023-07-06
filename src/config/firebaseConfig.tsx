@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signInAnonymously, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { initializeApp, } from "firebase/app";
+import { getAuth, onAuthStateChanged, signInAnonymously, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, updateProfile, User } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDoc, getDocs, doc, setDoc } from "firebase/firestore";
 
 
@@ -34,5 +34,7 @@ export {
   getDocs,
   doc,
   setDoc,
-  updateProfile
+  updateProfile,
 }
+
+export type { User }
