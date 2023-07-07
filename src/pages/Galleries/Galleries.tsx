@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc } from "../../config/firebaseConfig"
 import { AuthContext } from '../../contexts/AuthContext'
-import { Button } from "react-bootstrap"
+import { Button, Row, Col } from "react-bootstrap"
 import { v4 as uuidv4 } from 'uuid';
 
 export const Galleries = () => {
@@ -38,9 +38,17 @@ export const Galleries = () => {
   }, [])
   return (
     <div className="text-light">
-      <h2>Galleries</h2>
+      <Row>
+        <Col>
+          <h2>Galleries</h2>
+        </Col>
+        <Col>
+          <Button variant="light" className="w-50" onClick={createGallery}>Create New Gallery</Button>
+        </Col>
+        
+      </Row>
+      
       {userGalleries && userGalleries.length === 0 ? "No galleries found" : "Galleries Found"}
-      <Button variant="light" onClick={createGallery}>Create New Gallery</Button>
     </div>
   )
 }
