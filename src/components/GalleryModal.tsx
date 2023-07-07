@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap"
 
 export const GalleryModal = ({creatingGallery, closeModal, submitFunction} : {creatingGallery: boolean, closeModal: any, submitFunction: any}) => {
 
-    function handleSubmit(e: any) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         submitFunction();
     }
@@ -13,7 +13,7 @@ export const GalleryModal = ({creatingGallery, closeModal, submitFunction} : {cr
             <Modal.Title>Create New Gallery</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Gallery Name</Form.Label>
                     <Form.Control type="text" maxLength={20} placeholder="Solar System" />

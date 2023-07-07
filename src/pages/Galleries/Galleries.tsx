@@ -16,6 +16,7 @@ export const Galleries = () => {
       const newUserGalleries: Array<any> = [];
       galleriesFromDatabase.forEach(gallery => newUserGalleries.push(gallery.data()));
       setUserGalleries([...newUserGalleries])
+      console.log(newUserGalleries)
     }
     catch(e) {
       console.error(e)
@@ -38,8 +39,6 @@ export const Galleries = () => {
       name: "Test Gallery Doc",
       id: uuidv4()
     })
-
-
   }
 
   useEffect(()=> {
@@ -56,7 +55,9 @@ export const Galleries = () => {
         </Col>
       </Row>
       {creatingGallery ? <GalleryModal creatingGallery={creatingGallery} closeModal={closeGalleryModal} submitFunction={createGallery}/> : null }
-      {userGalleries && userGalleries.length === 0 ? "No galleries found" : "Galleries Found"}
+      {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.map(
+        (gallery: any) => <p>{gallery.name}</p>
+      )}
     </div>
   )
 }
