@@ -16,7 +16,6 @@ export const Galleries = () => {
       const newUserGalleries: Array<any> = [];
       galleriesFromDatabase.forEach(gallery => newUserGalleries.push(gallery.data()));
       setUserGalleries([...newUserGalleries])
-      console.log(newUserGalleries)
     }
     catch(e) {
       console.error(e)
@@ -32,18 +31,26 @@ export const Galleries = () => {
     setCreatingGallery(false)
   }
 
-  async function createGallery() {
+  async function createGallery(name: string) {
     const galleryRef = collection(db, "users", user!.uid, "galleries")
 
-    await addDoc(galleryRef, {
-      name: "Test Gallery Doc",
-      id: uuidv4()
-    })
+    if (name === null || name === undefined) {
+       return 
+      } else {
+        await addDoc(galleryRef, {
+          name: name,
+          id: uuidv4(),
+          date: new Date()
+        })
+      }
+      closeGalleryModal()
+      getGalleries()
   }
 
   useEffect(()=> {
     getGalleries()
   }, [])
+
   return (
     <div className="text-light">
       <Row>
@@ -55,7 +62,8 @@ export const Galleries = () => {
         </Col>
       </Row>
       {creatingGallery ? <GalleryModal creatingGallery={creatingGallery} closeModal={closeGalleryModal} submitFunction={createGallery}/> : null }
-      {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.map(
+      {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.sort((a: any, b: any) => a.date < b.date)
+      .map(
         (gallery: any) => <p>{gallery.name}</p>
       )}
     </div>
