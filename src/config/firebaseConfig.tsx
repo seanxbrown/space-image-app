@@ -1,6 +1,6 @@
 import { initializeApp, } from "firebase/app";
 import { getAuth, onAuthStateChanged, signInAnonymously, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, updateProfile, User } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDoc, getDocs, doc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, getDocs, doc, setDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 
 
@@ -35,6 +35,9 @@ export {
   doc,
   setDoc,
   updateProfile,
+  updateDoc, 
+  arrayUnion, 
+  arrayRemove 
 }
 
 export type { User }

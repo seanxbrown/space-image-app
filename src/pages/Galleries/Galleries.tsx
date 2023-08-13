@@ -37,12 +37,15 @@ export const Galleries = () => {
     if (name === null || name === undefined) {
        return 
       } else {
-        await addDoc(galleryRef, {
+        const galleryID = uuidv4()
+        await setDoc(doc(db, `users/${user!.uid}/galleries`, galleryID), {
           name: name,
-          id: uuidv4(),
-          date: new Date()
+          id: galleryID,
+          photos: []
+
         })
       }
+      console.log(galleryRef.id)
       closeGalleryModal()
       getGalleries()
   }
@@ -61,7 +64,7 @@ export const Galleries = () => {
           <Button variant="light" className="w-50" onClick={openGalleryModal}>Create New Gallery</Button>
         </Col>
       </Row>
-      {creatingGallery ? <GalleryModal creatingGallery={creatingGallery} closeModal={closeGalleryModal} submitFunction={createGallery}/> : null }
+      {creatingGallery ? <GalleryModal creatingGallery={creatingGallery} closeModal={closeGalleryModal} submitFunction={createGallery} page="gallery" galleries={userGalleries} /> : null }
       {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.sort((a: any, b: any) => a.date < b.date)
       .map(
         (gallery: any) => <p>{gallery.name}</p>

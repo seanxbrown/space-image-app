@@ -1,10 +1,17 @@
 import { Container, Button, ButtonGroup } from "react-bootstrap"
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
 import { Photo } from "./Photo"
+import { GalleryModal } from '../../components/GalleryModal';
+import { db, setDoc, doc, getDoc, collection, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove } from "../../config/firebaseConfig"
+import { v4 as uuidv4 } from 'uuid';
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const Search = () => {
 
-  const [photos, setPhotos] = useState<Object[] | undefined>([])
+  const [photos, setPhotos] = useState<unknown[] | undefined>([])
+  const [addingImage, setAddingImage] = useState<boolean>(false)
+  const [userGalleries, setUserGalleries] = useState<any>([])
+  const user = useContext(AuthContext)
 
   async function getRandomImage() {
 
@@ -37,6 +44,99 @@ export const Search = () => {
     
   }
 
+  function openGalleryModal() {
+
+    if(photos && photos.length < 1) {return}
+    setAddingImage(true)
+  }
+
+  function closeGalleryModal() {
+    setAddingImage(false)
+  }
+
+  async function addToGallery(name: string, galleryID?: string) {
+
+    //Alert if no gallery chosen
+
+    if(name === "" && galleryID === "none-selected") {
+      alert("No gallery selected")
+      return
+    }
+
+    //Alert if both fields selected
+
+    if(name !== "" && galleryID !== "none-selected") {
+      alert("Select either a new gallery or an existing gallery")
+      return
+    }
+
+    //Alert if gallery name already exists
+
+    for (let userGallery of userGalleries) {
+      if(name === userGallery.name) {
+        alert("Gallery with that name already exists")
+        return
+      }
+    }
+
+
+    //User has selected an existing gallery
+
+    if(name === "" && galleryID !== "none-selected") {
+      try {
+        const galleryRef = doc(db, "users", user!.uid, "galleries", galleryID!)
+
+        if(photos) {
+          await updateDoc(galleryRef, {
+            photos: arrayUnion(photos[0])
+          })
+
+        }
+      } catch(e){
+        console.log(e)
+      }
+      
+    }
+
+    //User is adding photo to a new gallery 24/7: start here
+    
+
+    if (name === null || name === undefined) {
+       return 
+      } else {
+        const newGalleryID = uuidv4()
+        const galleryRef = doc(db, "users", user!.uid, "galleries", newGalleryID!)
+
+        await setDoc(galleryRef, {
+          name: name,
+          id: newGalleryID,
+          date: new Date(),
+          photos: arrayUnion(photos![0])
+
+        })
+      }
+      closeGalleryModal()
+  }
+
+  async function getGalleries() {
+    try {
+      const galleriesFromDatabase = await getDocs(collection(db, "users", user!.uid, "galleries"))
+      const newUserGalleries: Array<any> = [];
+      galleriesFromDatabase.forEach(gallery => newUserGalleries.push(gallery.data()));
+      setUserGalleries([...newUserGalleries])
+    }
+    catch(e) {
+      console.error(e)
+    }
+
+  }
+
+  useEffect(()=> {
+    getGalleries()
+  }, [])
+
+
+
   return (
     <Container>
       <h2 className="text-light">Search</h2>
@@ -44,11 +144,13 @@ export const Search = () => {
         <Button className="btn btn-primary" role="button" onClick={getRandomImage}>Random Image</Button>
         <Button className="btn btn-primary ms-1" role="button" onClick={getTodaysImage}>Today's Image</Button>
       </ButtonGroup>
+      {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
+
       <Container id="search-results">
         {photos && photos.map((photo: any) => {
           return <Photo imgObject={photo} />
         })}
-     
+        <Button type="button" className="btn btn-primary" onClick={openGalleryModal}>Add to Gallery</Button>
       </Container>
     </Container>
   )
