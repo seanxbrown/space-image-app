@@ -13,15 +13,7 @@ export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page,
         }
         
     }
-
-    // 13/07: work out how to add a ref to a select element and use the value
-
-    /* Logic needs to be: If the new gallery field is blank, use the value from the dropdown as the gallery name and save the photo to that gallery.
-
-    Else, create a new gallery using the newgalleryname ref and add the photo there.
-
-    */
-   
+ 
   return (
     <Modal show={creatingGallery} onHide={closeModal}>
         <Modal.Header closeButton>
