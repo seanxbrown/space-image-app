@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { auth, onAuthStateChanged, User } from "./config/firebaseConfig"
 import { AuthContext } from "./contexts/AuthContext"
 import { PrivateRoute } from "./components/PrivateRoute"
+import { Gallery } from "./pages/Gallery/Gallery"
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
@@ -36,6 +37,8 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/space-image-app/search" element={<Search />} />
                 <Route path="/space-image-app/galleries" element={<Galleries />} />
+                <Route path="/space-image-app/galleries/galleryID" element={<Gallery />} />
+
               </Route>
               
             </Routes>

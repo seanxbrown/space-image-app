@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc } from "../../config/firebaseConfig"
 import { AuthContext } from '../../contexts/AuthContext'
-import { Button, Row, Col } from "react-bootstrap"
+import { Button, Row, Col, ListGroup } from "react-bootstrap"
 import { v4 as uuidv4 } from 'uuid';
 import { GalleryModal } from '../../components/GalleryModal';
+import { Link } from "react-router-dom"
 
 export const Galleries = () => {
   const [userGalleries, setUserGalleries] = useState<any>([])
@@ -65,10 +66,13 @@ export const Galleries = () => {
         </Col>
       </Row>
       {creatingGallery ? <GalleryModal creatingGallery={creatingGallery} closeModal={closeGalleryModal} submitFunction={createGallery} page="gallery" galleries={userGalleries} /> : null }
-      {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.sort((a: any, b: any) => a.date < b.date)
-      .map(
-        (gallery: any) => <p>{gallery.name}</p>
-      )}
+      <ListGroup variant="flush" >
+        {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.sort((a: any, b: any) => a.date < b.date)
+        .map(
+          (gallery: any) => <ListGroup.Item action variant="light"><Link to={`${gallery.id}`}>{gallery.name}</Link> </ListGroup.Item>
+        )}
+      </ListGroup>
+      
     </div>
   )
 }
