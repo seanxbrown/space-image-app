@@ -37,7 +37,7 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/space-image-app/search" element={<Search />} />
                 <Route path="/space-image-app/galleries" element={<Galleries />} />
-                <Route path="/space-image-app/galleries/galleryID" element={<Gallery />} />
+                <Route path="/space-image-app/galleries/:galleryID" element={<Gallery />} />
 
               </Route>
               
