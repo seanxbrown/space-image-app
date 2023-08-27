@@ -25,7 +25,7 @@ export const Gallery = () => {
     <div>
       <h2 className="text-light">{currentGallery?.name}</h2>
       <Container fluid>
-        <Row xs={3} md={4} lg={9} className="border border-1 border-danger">
+        <Row xs={3} md={4} lg={9}>
           { currentGallery?.photos?.map((photo: any) => <GalleryImage photo={photo} />) }
         </Row>
       </Container>      
