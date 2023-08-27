@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { Button, Modal, Form } from "react-bootstrap"
+import { ExistingGalleryFields } from './Navigation/ExistingGalleryFields'
 
 export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page, galleries, photos} : {creatingGallery: boolean, closeModal: any, submitFunction: any, page: "search" | "gallery", galleries: unknown[] | null, photos?: unknown[] | undefined | null}) => {
     const newGalleryNameRef = useRef<HTMLInputElement | null>(null)
@@ -21,22 +22,13 @@ export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page,
         </Modal.Header>
         <Modal.Body>
             <Form onSubmit={handleSubmit}>
-                {page === "search" && <Form.Group>
-                    <Form.Label>Add to Existing Gallery</Form.Label>
-                    <Form.Select ref={existingGalleryRef}>
-                        <option value={"none-selected"}>Select a Gallery</option>
-                        {galleries && galleries.length > 0 ? galleries.map((gallery: any) => {
-                            if (typeof gallery === "object") {return <option value={gallery.id} key={gallery.id}> {gallery.name}</option>}
-                             }) : null }
-                    </Form.Select>
-                </Form.Group> }
+                {page === "search" && <ExistingGalleryFields existingGalleryRef={existingGalleryRef} galleries={galleries}/> }
                 <Form.Group className="mb-3" id="gallery-name-input">
                     {page === "gallery" ? <Form.Label>Gallery Name</Form.Label> : <Form.Label>Add to New Gallery</Form.Label> }
                     <Form.Control ref={newGalleryNameRef} type="text" maxLength={20} placeholder="Solar System" />
                 </Form.Group>
                 <Button type="submit" variant="primary">Create</Button>
             </Form>
-
         </Modal.Body>
         
     </Modal>

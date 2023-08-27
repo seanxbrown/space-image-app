@@ -84,13 +84,13 @@ export const Search = () => {
 
     if(name === "" && galleryID !== "none-selected") {
       try {
+        console.log("First function triggered")
         const galleryRef = doc(db, "users", user!.uid, "galleries", galleryID!)
 
         if(photos) {
           await updateDoc(galleryRef, {
             photos: arrayUnion(photos[0])
           })
-
         }
       } catch(e){
         console.log(e)
@@ -98,15 +98,11 @@ export const Search = () => {
       
     }
 
-    //User is adding photo to a new gallery 24/7: start here
+    //User is adding photo to a new gallery
     
-
-    if (name === null || name === undefined) {
-       return 
-      } else {
+    if (name === "" && galleryID === "none-selected") {
         const newGalleryID = uuidv4()
         const galleryRef = doc(db, "users", user!.uid, "galleries", newGalleryID!)
-
         await setDoc(galleryRef, {
           name: name,
           id: newGalleryID,
