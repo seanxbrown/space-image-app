@@ -33,7 +33,6 @@ export const Galleries = () => {
   }
 
   async function createGallery(name: string) {
-    const galleryRef = collection(db, "users", user!.uid, "galleries")
 
     if (name === null || name === undefined) {
        return 
@@ -46,7 +45,6 @@ export const Galleries = () => {
 
         })
       }
-      console.log(galleryRef.id)
       closeGalleryModal()
       getGalleries()
   }

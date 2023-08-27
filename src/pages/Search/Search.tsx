@@ -100,10 +100,10 @@ export const Search = () => {
 
     //User is adding photo to a new gallery
     
-    if (name === "" && galleryID === "none-selected") {
+    else {
         const newGalleryID = uuidv4()
-        const galleryRef = doc(db, "users", user!.uid, "galleries", newGalleryID!)
-        await setDoc(galleryRef, {
+
+        await setDoc(doc(db, `users/${user!.uid}/galleries`,newGalleryID), {
           name: name,
           id: newGalleryID,
           date: new Date(),
