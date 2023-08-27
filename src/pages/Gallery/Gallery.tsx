@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect, useContext } from "react"
 import { doc, getDoc, db } from "../../config/firebaseConfig"
 import { AuthContext } from "../../contexts/AuthContext"
-import { Image } from "react-bootstrap"
+import { Row, Container } from "react-bootstrap"
+import { GalleryImage } from "./GalleryImage"
 
 export const Gallery = () => {
   const [currentGallery, setCurrentGallery] = useState<any>(null)
@@ -19,14 +20,15 @@ export const Gallery = () => {
     getGalleryData(galleryID)
 
   }, [])
-
-  //20th Aug: Next steps - use grid system to control size of the gallery images
-
   
   return (
     <div>
       <h2 className="text-light">{currentGallery?.name}</h2>
-      { currentGallery?.photos?.map((photo: any) => <Image src={photo.hdurl}/>) }
+      <Container fluid>
+        <Row xs={3} md={4} lg={9} className="border border-1 border-danger">
+          { currentGallery?.photos?.map((photo: any) => <GalleryImage photo={photo} />) }
+        </Row>
+      </Container>      
     </div>
   )
 }

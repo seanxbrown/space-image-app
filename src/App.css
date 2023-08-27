@@ -10,6 +10,23 @@
   background-size: cover;
 }
 
+.gallery-image-column {
+  position: relative;
+  cursor: pointer;
+}
+
+.gallery-image-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  background-color: #000;
+  color: #fff;
+
+}
+
 @media only screen and (min-width: 1440px) {
   #homepage-hero {
     background-image: url("./assets/landing-image-2-lg.jpg")
