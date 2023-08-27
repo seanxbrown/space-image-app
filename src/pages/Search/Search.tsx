@@ -152,8 +152,9 @@ export const Search = () => {
         {photos && photos.map((photo: any) => {
           return <Photo imgObject={photo} />
         })}
-        <Button type="button" className="btn btn-primary" onClick={openGalleryModal}>Add to Gallery</Button>
       </Container>
+      { photos!.length > 0  && <Button type="button" className="btn btn-primary" onClick={openGalleryModal}>Add to Gallery</Button> }
+
     </Container>
   )
 }
