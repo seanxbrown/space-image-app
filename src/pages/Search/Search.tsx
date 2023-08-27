@@ -101,8 +101,8 @@ export const Search = () => {
     //User is adding photo to a new gallery
     
     else {
+      try {
         const newGalleryID = uuidv4()
-
         await setDoc(doc(db, `users/${user!.uid}/galleries`,newGalleryID), {
           name: name,
           id: newGalleryID,
@@ -110,6 +110,12 @@ export const Search = () => {
           photos: arrayUnion(photos![0])
 
         })
+        
+      } catch(e) {
+        alert(e)
+        console.log(e)
+      }
+        
       }
       closeGalleryModal()
   }
