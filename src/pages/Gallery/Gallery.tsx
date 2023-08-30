@@ -4,10 +4,12 @@ import { doc, getDoc, db, updateDoc } from "../../config/firebaseConfig"
 import { AuthContext } from "../../contexts/AuthContext"
 import { Row, Container, Button, Col, Alert, ButtonGroup } from "react-bootstrap"
 import { GalleryImage } from "./GalleryImage"
+import { setPersistence } from "firebase/auth"
 
 export const Gallery = () => {
   const [currentGallery, setCurrentGallery] = useState<any>(null)
   const [deletingGallery, setDeletingGallery] = useState<boolean>(false)
+  const [inHD, setInHD] = useState<boolean>(false)
   const { galleryID } = useParams()
   const user = useContext(AuthContext)
   const navigate = useNavigate()
@@ -48,16 +50,19 @@ export const Gallery = () => {
         </div>
       </Alert> }
       <Row id="gallery-header">
-        <Col xs={8}>
+        <Col xs={6}>
           <h2 className="text-light">{currentGallery?.name}</h2>
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           <Button type="button" className="btn btn-danger" onClick={()=> setDeletingGallery(true)}>Delete Gallery</Button>
+        </Col>
+        <Col xs={3}>
+          <Button type="button" className="btn btn-primary" onClick={()=> setInHD(!inHD)}>{inHD ? "HD Mode On" : "HD Mode Off" }</Button>
         </Col>
       </Row>
       <Container fluid>
         <Row xs={3} md={4} lg={9}>
-          { currentGallery?.photos?.map((photo: any) => <GalleryImage photo={photo} />) }
+          { currentGallery?.photos?.map((photo: any) => <GalleryImage photo={photo} inHD={inHD} />) }
         </Row>
       </Container>      
     </div>
