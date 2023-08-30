@@ -41,7 +41,8 @@ export const Galleries = () => {
         await setDoc(doc(db, `users/${user!.uid}/galleries`, galleryID), {
           name: name,
           id: galleryID,
-          photos: []
+          photos: [],
+          isDeleted: false
 
         })
       }
@@ -67,7 +68,11 @@ export const Galleries = () => {
       <ListGroup variant="flush" >
         {userGalleries && userGalleries.length === 0 ? "No galleries found" : userGalleries.sort((a: any, b: any) => a.date < b.date)
         .map(
-          (gallery: any) => <ListGroup.Item action variant="light"><Link to={`${gallery.id}`}>{gallery.name}</Link> </ListGroup.Item>
+          (gallery: any) => {
+            if(!gallery.isDeleted) {
+              return <ListGroup.Item action variant="light"><Link to={`${gallery.id}`}>{gallery.name}</Link> </ListGroup.Item>
+            }
+          }
         )}
       </ListGroup>
       

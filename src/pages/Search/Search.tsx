@@ -107,7 +107,8 @@ export const Search = () => {
           name: name,
           id: newGalleryID,
           date: new Date(),
-          photos: arrayUnion(photos![0])
+          photos: arrayUnion(photos![0]),
+          isDeleted: false
 
         })
         
