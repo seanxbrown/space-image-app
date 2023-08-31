@@ -73,7 +73,7 @@ export const Search = () => {
     //Alert if gallery name already exists
 
     for (let userGallery of userGalleries) {
-      if(name === userGallery.name) {
+      if(name === userGallery.name && !userGallery.isDeleted) {
         alert("Gallery with that name already exists")
         return
       }

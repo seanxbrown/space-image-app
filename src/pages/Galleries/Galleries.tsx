@@ -34,19 +34,28 @@ export const Galleries = () => {
 
   async function createGallery(name: string) {
 
-    if (name === null || name === undefined) {
-       return 
-      } else {
-        const galleryID = uuidv4()
-        await setDoc(doc(db, `users/${user!.uid}/galleries`, galleryID), {
-          name: name,
-          id: galleryID,
-          photos: [],
-          isDeleted: false
-
-        })
+    if (name === "") {
+      alert("Enter a gallery name")
+       return
+      } 
+    
+      for (let existingGallery of userGalleries) {
+        if (existingGallery.name === name && !existingGallery.isDeleted) {
+          alert("Gallery with that name already exists")
+          return
+        }
       }
-      closeGalleryModal()
+      
+      const galleryID = uuidv4()
+      await setDoc(doc(db, `users/${user!.uid}/galleries`, galleryID), {
+        name: name,
+        id: galleryID,
+        photos: [],
+        isDeleted: false
+
+      })
+  
+    closeGalleryModal()
       getGalleries()
   }
 
