@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Button, Modal, Form } from "react-bootstrap"
-import { ExistingGalleryFields } from './Navigation/ExistingGalleryFields'
+import { ExistingGalleryFields } from './ExistingGalleryFields'
 
 export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page, galleries, photos} : {creatingGallery: boolean, closeModal: any, submitFunction: any, page: "search" | "gallery", galleries: unknown[] | null, photos?: unknown[] | undefined | null}) => {
     const newGalleryNameRef = useRef<HTMLInputElement | null>(null)

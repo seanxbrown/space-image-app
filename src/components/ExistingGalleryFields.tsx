@@ -8,7 +8,7 @@ export const ExistingGalleryFields = ({existingGalleryRef, galleries} : {existin
         <Form.Select ref={existingGalleryRef}>
             <option value={"none-selected"}>Select a Gallery</option>
             {galleries && galleries.length > 0 ? galleries.map((gallery: any) => {
-                if (typeof gallery === "object") {
+                if (typeof gallery === "object" && !gallery.isDeleted) {
                     return <option value={gallery.id} key={gallery.id}> {gallery.name} </option>}
                     }) : null }
         </Form.Select>
