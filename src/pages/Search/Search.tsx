@@ -8,7 +8,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export const Search = () => {
 
-  const [photos, setPhotos] = useState<unknown[] | undefined>([])
+  const [photos, setPhotos] = useState<any[] | undefined>([])
   const [addingImage, setAddingImage] = useState<boolean>(false)
   const [userGalleries, setUserGalleries] = useState<any>([])
   const user = useContext(AuthContext)
@@ -84,10 +84,10 @@ export const Search = () => {
 
     if(name === "" && galleryID !== "none-selected") {
       try {
-        console.log("First function triggered")
         const galleryRef = doc(db, "users", user!.uid, "galleries", galleryID!)
 
         if(photos) {
+          photos[0].id = uuidv4()
           await updateDoc(galleryRef, {
             photos: arrayUnion(photos[0])
           })
@@ -103,6 +103,7 @@ export const Search = () => {
     else {
       try {
         const newGalleryID = uuidv4()
+        photos![0].id = uuidv4()
         await setDoc(doc(db, `users/${user!.uid}/galleries`,newGalleryID), {
           name: name,
           id: newGalleryID,
