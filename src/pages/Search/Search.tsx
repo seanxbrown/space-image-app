@@ -34,7 +34,7 @@ export const Search = () => {
     const date = new Date().toJSON().slice(0,10)
 
     try {
-      const data = await fetch(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=${import.meta.env.VITE_API_KEY}`)
+      const data = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${import.meta.env.VITE_API_KEY}`)
       const photoData = await data.json()
 
       setPhotos([photoData])
