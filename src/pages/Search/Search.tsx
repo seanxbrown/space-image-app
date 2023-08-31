@@ -88,6 +88,7 @@ export const Search = () => {
 
         if(photos) {
           photos[0].id = uuidv4()
+          photos[0].isDeleted = false
           await updateDoc(galleryRef, {
             photos: arrayUnion(photos[0])
           })
@@ -104,6 +105,7 @@ export const Search = () => {
       try {
         const newGalleryID = uuidv4()
         photos![0].id = uuidv4()
+        photos![0].isDeleted = false
         await setDoc(doc(db, `users/${user!.uid}/galleries`,newGalleryID), {
           name: name,
           id: newGalleryID,

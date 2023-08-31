@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect, useContext } from "react"
-import { doc, getDoc, db, updateDoc } from "../../config/firebaseConfig"
+import { doc, getDoc, db, updateDoc, arrayRemove, arrayUnion } from "../../config/firebaseConfig"
 import { AuthContext } from "../../contexts/AuthContext"
-import { Row, Container, Button, Col, Alert } from "react-bootstrap"
+import { Row, Container, Button, Col, Alert, Modal } from "react-bootstrap"
 import { GalleryImage } from "./GalleryImage"
 import { GalleryImageDetail } from "./GalleryImageDetail"
 
@@ -12,6 +12,7 @@ export const Gallery = () => {
   const [inHD, setInHD] = useState<boolean>(false)
   const [viewImageDetail, setViewImageDetail] = useState<boolean>(false)
   const [selectedPhoto, setSelectedPhoto] = useState<any>(null)
+  const [deletingPhoto, setDeletingPhoto] = useState<boolean>(false)
   const { galleryID } = useParams()
   const user = useContext(AuthContext)
   const navigate = useNavigate()
@@ -46,6 +47,40 @@ export const Gallery = () => {
   function closeImageDetail() {
     setViewImageDetail(false)
   }
+
+  function openPhotoDeletionAlert() {
+    setDeletingPhoto(true)
+    console.log("del box open")
+  }
+
+  function closePhotoDeletionAlert() {
+    setDeletingPhoto(false)
+    console.log("del box closed")
+  }
+
+  async function deletePhoto() {
+
+    try {
+      const docRef = doc(db, `users/${user!.uid}/galleries/${currentGallery!.id}`)
+      const updatedPhoto = {...selectedPhoto}
+      updatedPhoto.isDeleted = true
+      await updateDoc(docRef, {
+        photos: arrayRemove(selectedPhoto)
+      })
+      await updateDoc(docRef, {
+        photos: arrayUnion(updatedPhoto)
+      })
+      getGalleryData(galleryID)
+      setDeletingPhoto(false)
+      setViewImageDetail(false)
+    } catch(e) {
+      alert(e)
+    }
+    
+
+  }
+
+  
   
   useEffect(()=> {
     getGalleryData(galleryID)
@@ -77,11 +112,26 @@ export const Gallery = () => {
 
       <Container fluid>
         <Row xs={3} md={4} lg={9}>
-          { currentGallery?.photos?.map((photo: any) => <GalleryImage photo={photo} inHD={inHD} selectPhoto={selectPhoto} />) }
+          { currentGallery?.photos?.map((photo: any) => {
+            if(!photo.isDeleted) {
+              return <GalleryImage photo={photo} inHD={inHD} selectPhoto={selectPhoto} />
+            }}
+          ) 
+          }
+        
         </Row>
       </Container>
       
-      { viewImageDetail && <GalleryImageDetail photo={selectedPhoto} show={viewImageDetail} closeImageDetail={closeImageDetail} />}
+      { viewImageDetail && <GalleryImageDetail photo={selectedPhoto} show={viewImageDetail} closeImageDetail={closeImageDetail} openPhotoDeletionAlert={openPhotoDeletionAlert}/>}
+      { deletingPhoto && <Modal centered show={deletingPhoto} onHide={closePhotoDeletionAlert} className="z-3">
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body > Delete photo?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={deletePhoto}>Yes</Button>
+          <Button variant="secondary" onClick={closePhotoDeletionAlert}>No</Button>
+        </Modal.Footer>
+        </Modal>
+      }
 
     </div>
   )
