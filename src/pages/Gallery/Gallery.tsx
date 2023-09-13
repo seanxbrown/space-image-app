@@ -40,8 +40,8 @@ export const Gallery = () => {
   function selectPhoto(id: string) {
     const result = currentGallery.photos.filter((galleryImage: any) => galleryImage.id === id)
     setSelectedPhoto(result[0])
-    setViewImageDetail(true)
-
+    //setViewImageDetail(true)
+    navigate(`/space-image-app/galleries/${galleryID}/${id}`)
   }
 
   function closeImageDetail() {
