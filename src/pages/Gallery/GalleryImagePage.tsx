@@ -1,16 +1,40 @@
 import { useParams, useNavigate } from "react-router-dom"
-import { doc, getDoc, db } from "../../config/firebaseConfig"
+import { doc, getDoc, db, updateDoc, arrayRemove, arrayUnion } from "../../config/firebaseConfig"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
-import { Container, Image, Button, Modal } from "react-bootstrap"
+import { Container, Image, Button, Alert } from "react-bootstrap"
 import { formatDate } from "../../utils/utils"
 
 export const GalleryImagePage = () => {
     const [selectedPhoto, setSelectedPhoto] = useState<any>({})
     const [isHD, setIsHD] = useState<boolean>(false)
+    const [deleting, setDeleting] = useState<boolean>(false)
     const { galleryID, imageID } = useParams()
     const user = useContext(AuthContext)
     const navigate = useNavigate()
+    
+
+    async function deletePhoto() {
+
+        try {
+            const docRef = doc(db, `users/${user!.uid}/galleries/${galleryID}`)
+            const newPhoto = {...selectedPhoto}
+            newPhoto.isDeleted = true
+            await updateDoc(docRef, {
+                photos: arrayRemove(selectedPhoto)
+            })
+
+            await updateDoc(docRef, {
+                photos: arrayUnion(newPhoto)
+            })
+
+            navigate(`/space-image-app/galleries/${galleryID}`)
+        } catch(e) {
+            console.log(e)
+        }
+
+    }
+
 
     async function getImageData() {
         const docRef = doc(db, `users/${user!.uid}/galleries/${galleryID}`)
@@ -31,6 +55,12 @@ useEffect(() => {
 
   return (
     <Container fluid>
+        { deleting && <Alert variant="danger" dismissible onClose={()=> setDeleting(false)}>
+                        <p>Delete this photo?</p>
+                        <Button variant="primary" type="button" onClick={deletePhoto}>Yes</Button>
+                        <Button variant="primary" type="button" onClick={()=> setDeleting(false)}>No</Button>
+            </Alert>
+        }
         <h2 className="text-light text-center">
             {`${selectedPhoto?.title}: ${formatDate(selectedPhoto?.date)} `}
         </h2>
@@ -45,7 +75,7 @@ useEffect(() => {
         </Container>
         <Container>
             <Button variant="info" type="button" onClick={()=> {navigate(`/space-image-app/galleries/${galleryID}`)}}>Return to gallery</Button>
-            <Button variant="danger" type="button">Delete image</Button>
+            <Button variant="danger" type="button" onClick={()=> setDeleting(true)}>Delete image</Button>
         </Container>
     </Container>
   )
