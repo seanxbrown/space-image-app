@@ -1,5 +1,5 @@
-import { Container, Button, ButtonGroup } from "react-bootstrap"
-import { useState, useContext, useEffect } from "react"
+import { Container, Button, ButtonGroup, Spinner } from "react-bootstrap"
+import { useState, useContext, useEffect, Suspense } from "react"
 import { Photo } from "./Photo"
 import { GalleryModal } from '../../components/GalleryModal';
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove } from "../../config/firebaseConfig"
@@ -11,21 +11,22 @@ export const Search = () => {
   const [photos, setPhotos] = useState<any[] | undefined>([])
   const [addingImage, setAddingImage] = useState<boolean>(false)
   const [userGalleries, setUserGalleries] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const user = useContext(AuthContext)
 
   async function getRandomImage() {
+    
 
     try {
-
+      setLoading(true)
       const data = await fetch(`https://api.nasa.gov/planetary/apod?count=1&api_key=${import.meta.env.VITE_API_KEY}`)
-
       const photoData = await data.json()
-
       setPhotos(photoData)
 
     } catch(e) {
       alert(e)
     }
+    setLoading(false)
 
   }
 
@@ -34,13 +35,15 @@ export const Search = () => {
     const date = new Date().toJSON().slice(0,10)
 
     try {
+      setLoading(true)
       const data = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${import.meta.env.VITE_API_KEY}`)
       const photoData = await data.json()
-
       setPhotos([photoData])
+
     } catch(e) {
       alert(e)
     }
+    setLoading(false)
     
   }
 
@@ -153,12 +156,17 @@ export const Search = () => {
       {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
 
       <Container id="search-results">
-        {photos && photos.map((photo: any) => {
+        {loading ? <Spinner animation="border" role="status" variant="secondary"/> : photos && photos.map((photo: any) => {
           return <Photo imgObject={photo} />
         })}
       </Container>
+
+      
       { photos!.length > 0  && <Button type="button" className="btn btn-primary" onClick={openGalleryModal}>Add to Gallery</Button> }
 
+        
+
+      
     </Container>
   )
 }
