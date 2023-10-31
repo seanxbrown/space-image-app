@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom"
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, Suspense } from "react"
 import { doc, getDoc, db, updateDoc, arrayRemove, arrayUnion } from "../../config/firebaseConfig"
 import { AuthContext } from "../../contexts/AuthContext"
 import { Row, Container, Button, Col, Alert, Modal } from "react-bootstrap"
@@ -88,7 +88,7 @@ export const Gallery = () => {
   }, [])
   
   return (
-    <div>
+    <Container>
       { deletingGallery && 
       <Alert dismissible variant="danger" className="w-75 m-auto" onClose={()=> setDeletingGallery(false)}>
         <p className="text-center">Delete this gallery?</p>
@@ -103,10 +103,10 @@ export const Gallery = () => {
           <h2 className="text-light">{currentGallery?.name}</h2>
         </Col>
         <Col xs={3}>
-          <Button type="button" className="btn btn-danger" onClick={()=> setDeletingGallery(true)}>Delete Gallery</Button>
+          <Button type="button" variant="light" onClick={()=> setDeletingGallery(true)}>Delete Gallery</Button>
         </Col>
         <Col xs={3}>
-          <Button type="button" className="btn btn-primary" onClick={()=> setInHD(!inHD)}>{inHD ? "HD Mode On" : "HD Mode Off" }</Button>
+          <Button type="button" variant="light" onClick={()=> setInHD(!inHD)}>{inHD ? "HD Mode On" : "HD Mode Off" }</Button>
         </Col>
       </Row>
 
@@ -118,7 +118,6 @@ export const Gallery = () => {
             }}
           ) 
           }
-        
         </Row>
       </Container>
       
@@ -133,7 +132,7 @@ export const Gallery = () => {
         </Modal>
       }
 
-    </div>
+    </Container>
   )
 }
 

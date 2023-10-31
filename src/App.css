@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+#root {
+  background-color: #000005;
+
+}
+
 #homepage-hero {
   background-image: url("./assets/landing-image-2-md.jpg");
   background-repeat: no-repeat;
@@ -25,6 +30,9 @@
   background-color: #000;
   color: #fff;
 
+}
+
+#navbar {
 }
 
 @media only screen and (min-width: 1440px) {

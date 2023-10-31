@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc } from "../../config/firebaseConfig"
 import { AuthContext } from '../../contexts/AuthContext'
-import { Button, Row, Col, ListGroup } from "react-bootstrap"
+import { Button, Row, Col, ListGroup, Container } from "react-bootstrap"
 import { v4 as uuidv4 } from 'uuid';
 import { GalleryModal } from '../../components/GalleryModal';
 import { Link } from "react-router-dom"
@@ -64,7 +64,7 @@ export const Galleries = () => {
   }, [])
 
   return (
-    <div className="text-light">
+    <Container className="text-light">
       <Row>
         <Col>
           <h2>Galleries</h2>
@@ -79,12 +79,14 @@ export const Galleries = () => {
         .map(
           (gallery: any) => {
             if(!gallery.isDeleted) {
-              return <ListGroup.Item action variant="light"><Link to={`${gallery.id}`}>{gallery.name}</Link> </ListGroup.Item>
+              return <ListGroup.Item action variant="light">
+                <Link to={`${gallery.id}`} className="text-decoration-none text-dark bg-opacity-10">{gallery.name}</Link> 
+                </ListGroup.Item>
             }
           }
         )}
       </ListGroup>
       
-    </div>
+    </Container>
   )
 }

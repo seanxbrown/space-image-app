@@ -29,7 +29,7 @@ function App() {
   return (
     <AuthContext.Provider value={user}>
       <Router>
-        <div className="bg-dark min-vh-100">
+        <div className="min-vh-100">
           <Navigation />
             <Routes>
               <Route path="/space-image-app" element={<Homepage />} />

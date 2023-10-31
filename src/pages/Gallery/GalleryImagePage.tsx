@@ -49,9 +49,7 @@ useEffect(() => {
     getImageData()
 
 }, [])
-
-// 11th september: next step: create modals and functionality to delete individual images
-    
+   
 
   return (
     <Container fluid>
@@ -64,7 +62,7 @@ useEffect(() => {
         <h2 className="text-light text-center">
             {`${selectedPhoto?.title}: ${formatDate(selectedPhoto?.date)} `}
         </h2>
-        <Button variant="primary" type="button" onClick={()=> setIsHD(!isHD)}>Toggle HD</Button>
+        <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>Toggle HD</Button>
         <Container>
             <Image src={isHD ? selectedPhoto?.hdurl : selectedPhoto?.url} className="w-100"/>
         </Container>
@@ -74,7 +72,7 @@ useEffect(() => {
             </p>
         </Container>
         <Container>
-            <Button variant="info" type="button" onClick={()=> {navigate(`/space-image-app/galleries/${galleryID}`)}}>Return to gallery</Button>
+            <Button variant="light" type="button" onClick={()=> {navigate(`/space-image-app/galleries/${galleryID}`)}}>Return to gallery</Button>
             <Button variant="danger" type="button" onClick={()=> setDeleting(true)}>Delete image</Button>
         </Container>
     </Container>

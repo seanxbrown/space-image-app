@@ -23,7 +23,7 @@ export const Navigation = () => {
   }
 
   return (
-    <Navbar bg="dark" variant="dark"  expand="lg">
+    <Navbar variant="dark" expand="lg" id="navbar">
         <Container fluid>
             <Navbar.Brand>Space Images</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbar-nav" />

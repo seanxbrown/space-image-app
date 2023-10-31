@@ -1,4 +1,4 @@
-import { Container, Button, ButtonGroup, Spinner } from "react-bootstrap"
+import { Container, Button, ButtonGroup, Spinner, Row, Col } from "react-bootstrap"
 import { useState, useContext, useEffect, Suspense } from "react"
 import { Photo } from "./Photo"
 import { GalleryModal } from '../../components/GalleryModal';
@@ -148,11 +148,17 @@ export const Search = () => {
 
   return (
     <Container>
-      <h2 className="text-light">Search</h2>
-      <ButtonGroup id="search-button-container" className="m-auto">
-        <Button className="btn btn-primary" role="button" onClick={getRandomImage}>Random Image</Button>
-        <Button className="btn btn-primary ms-1" role="button" onClick={getTodaysImage}>Today's Image</Button>
+      <Row>
+        <Col> <h2 className="text-light">Search</h2> </Col>
+        <Col>
+        <ButtonGroup id="search-button-container" className="m-auto">
+        <Button variant="light" onClick={getRandomImage}>Random Image</Button>
+        <Button className=" ms-1" variant="light" onClick={getTodaysImage}>Today's Image</Button>
       </ButtonGroup>
+        </Col>
+      </Row>
+      
+      
       {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
 
       <Container id="search-results">
@@ -162,7 +168,7 @@ export const Search = () => {
       </Container>
 
       
-      { photos!.length > 0  && <Button type="button" className="btn btn-primary" onClick={openGalleryModal}>Add to Gallery</Button> }
+      { photos!.length > 0  && <Button variant="light" onClick={openGalleryModal}>Add to Gallery</Button> }
 
         
 
