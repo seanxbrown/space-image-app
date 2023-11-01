@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { doc, getDoc, db, updateDoc, arrayRemove, arrayUnion } from "../../config/firebaseConfig"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
-import { Container, Image, Button, Alert } from "react-bootstrap"
+import { Container, Image, Button, Alert, Row, Col } from "react-bootstrap"
 import { formatDate } from "../../utils/utils"
 
 export const GalleryImagePage = () => {
@@ -59,10 +59,17 @@ useEffect(() => {
                         <Button variant="primary" type="button" onClick={()=> setDeleting(false)}>No</Button>
             </Alert>
         }
-        <h2 className="text-light text-center">
-            {`${selectedPhoto?.title}: ${formatDate(selectedPhoto?.date)} `}
-        </h2>
-        <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>Toggle HD</Button>
+        <Row>
+            <Col>
+                <h2 className="text-light text-center">
+                    {`${selectedPhoto?.title}: ${formatDate(selectedPhoto?.date)} `}
+                </h2>
+            </Col>
+            <Col>
+                <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>Toggle HD</Button>
+            </Col>
+        </Row>
+        
         <Container>
             <Image src={isHD ? selectedPhoto?.hdurl : selectedPhoto?.url} className="w-100"/>
         </Container>
