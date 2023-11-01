@@ -32,8 +32,9 @@ export const Navigation = () => {
                     <Link className="nav-link" to="/space-image-app/">Home</Link>
                     <Link className="nav-link" to="/space-image-app/search">Search</Link>
                     <Link className="nav-link" to="/space-image-app/galleries">Galleries</Link>
+                    { user && <Link className="nav-link" to="#" onClick={signUserOut}>Log Out</Link>}
                 </Nav>
-                { user && <Navbar.Text onClick={signUserOut}>Log Out</Navbar.Text>}
+                
             </Navbar.Collapse>
         </Container>
     </Navbar>
