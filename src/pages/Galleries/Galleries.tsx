@@ -64,7 +64,7 @@ export const Galleries = () => {
   }, [])
 
   return (
-    <Container className="text-light">
+    <Container className="text-light pb-5">
       <Row>
         <Col>
           <h2>Galleries</h2>

@@ -147,7 +147,7 @@ export const Search = () => {
 
 
   return (
-    <Container>
+    <Container className="pb-5">
       <Row>
         <Col> <h2 className="text-light">Search</h2> </Col>
         <Col>

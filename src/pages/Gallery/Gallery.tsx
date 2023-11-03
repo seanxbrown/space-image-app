@@ -88,7 +88,7 @@ export const Gallery = () => {
   }, [])
   
   return (
-    <Container>
+    <Container className="pb-5">
       { deletingGallery && 
       <Alert dismissible variant="danger" className="w-75 m-auto" onClose={()=> setDeletingGallery(false)}>
         <p className="text-center">Delete this gallery?</p>

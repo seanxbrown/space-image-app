@@ -52,7 +52,7 @@ useEffect(() => {
    
 
   return (
-    <Container fluid>
+    <Container fluid className="pb-5">
         { deleting && <Alert variant="danger" dismissible onClose={()=> setDeleting(false)}>
                         <p>Delete this photo?</p>
                         <Button variant="primary" type="button" onClick={deletePhoto}>Yes</Button>
@@ -66,7 +66,7 @@ useEffect(() => {
                 </h2>
             </Col>
             <Col>
-                <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>Toggle HD</Button>
+                <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>{isHD ? "HD On" : "HD Off"} </Button>
             </Col>
         </Row>
         
