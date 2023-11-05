@@ -4,9 +4,10 @@ import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import { Container, Image, Button, Alert, Row, Col } from "react-bootstrap"
 import { formatDate } from "../../utils/utils"
+import { IPhoto } from "../../types/types"
 
 export const GalleryImagePage = () => {
-    const [selectedPhoto, setSelectedPhoto] = useState<any>({})
+    const [selectedPhoto, setSelectedPhoto] = useState<IPhoto | null>(null)
     const [isHD, setIsHD] = useState<boolean>(false)
     const [deleting, setDeleting] = useState<boolean>(false)
     const { galleryID, imageID } = useParams()
@@ -40,7 +41,7 @@ export const GalleryImagePage = () => {
         const docRef = doc(db, `users/${user!.uid}/galleries/${galleryID}`)
         const docSnap = await getDoc(docRef)
         
-        setSelectedPhoto(docSnap.data()?.photos.filter((photo: any)=> photo.id === imageID)[0])
+        setSelectedPhoto(docSnap.data()?.photos.filter((photo: IPhoto)=> photo.id === imageID)[0])
         
     }
 
