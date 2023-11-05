@@ -1,10 +1,10 @@
 import { Col, Image } from "react-bootstrap"
 import { useState } from "react"
+import { IPhoto } from "../../types/types"
 
-export const GalleryImage = ({ photo, inHD, selectPhoto }: { photo: any, inHD: boolean, selectPhoto: any }) => {
+export const GalleryImage = ({ photo, inHD, selectPhoto }: { photo: IPhoto, inHD: boolean, selectPhoto: any }) => {
   const [hovering, setHovering] = useState<boolean>(false)
 
-//31st aug: next step - have modal be displayed based on selected image
   return (
     <Col className="p-0 gallery-image-column"
     onClick={() => selectPhoto(photo.id)}

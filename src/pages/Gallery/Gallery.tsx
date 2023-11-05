@@ -5,13 +5,14 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { Row, Container, Button, Col, Alert, Modal } from "react-bootstrap"
 import { GalleryImage } from "./GalleryImage"
 import { GalleryImageDetail } from "./GalleryImageDetail"
+import { IGallery, IPhoto } from "../../types/types"
 
 export const Gallery = () => {
   const [currentGallery, setCurrentGallery] = useState<any>(null)
   const [deletingGallery, setDeletingGallery] = useState<boolean>(false)
   const [inHD, setInHD] = useState<boolean>(false)
   const [viewImageDetail, setViewImageDetail] = useState<boolean>(false)
-  const [selectedPhoto, setSelectedPhoto] = useState<any>(null)
+  const [selectedPhoto, setSelectedPhoto] = useState<IPhoto | null>(null)
   const [deletingPhoto, setDeletingPhoto] = useState<boolean>(false)
   const { galleryID } = useParams()
   const user = useContext(AuthContext)
@@ -38,9 +39,8 @@ export const Gallery = () => {
   }
 
   function selectPhoto(id: string) {
-    const result = currentGallery.photos.filter((galleryImage: any) => galleryImage.id === id)
+    const result = currentGallery.photos.filter((galleryImage: IPhoto) => galleryImage.id === id)
     setSelectedPhoto(result[0])
-    //setViewImageDetail(true)
     navigate(`/space-image-app/galleries/${galleryID}/${id}`)
   }
 
@@ -50,12 +50,10 @@ export const Gallery = () => {
 
   function openPhotoDeletionAlert() {
     setDeletingPhoto(true)
-    console.log("del box open")
   }
 
   function closePhotoDeletionAlert() {
     setDeletingPhoto(false)
-    console.log("del box closed")
   }
 
   async function deletePhoto() {
@@ -112,7 +110,7 @@ export const Gallery = () => {
 
       <Container fluid>
         <Row xs={3} md={4} lg={9}>
-          { currentGallery?.photos?.map((photo: any) => {
+          { currentGallery?.photos?.map((photo: IPhoto) => {
             if(!photo.isDeleted) {
               return <GalleryImage photo={photo} inHD={inHD} selectPhoto={selectPhoto} />
             }}
