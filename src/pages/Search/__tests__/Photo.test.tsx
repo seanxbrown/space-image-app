@@ -9,7 +9,9 @@ const testObj = {
     "media_type": "image",
     "service_version": "v1",
     "title": "Rubin's Galaxy",
-    "url": "https://apod.nasa.gov/apod/image/2304/RubinsGalaxy_hst1024.jpg"
+    "url": "https://apod.nasa.gov/apod/image/2304/RubinsGalaxy_hst1024.jpg",
+    "id": "wududueh2",
+    "isDeleted": false
   }
 
 describe("Photo component", () => {

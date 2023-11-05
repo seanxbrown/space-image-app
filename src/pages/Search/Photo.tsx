@@ -1,22 +1,8 @@
 import { Container } from "react-bootstrap"
 import { formatDate } from "../../utils/utils";
+import { IPhoto } from "../../types/types";
 
-interface IPhoto {
-
-    imgObject: {
-    
-    "date": string;
-    "explanation": string;
-    "hdurl": string;
-    "media_type": string;
-    "service_version": string;
-    "title": string;
-    "url": string;
-    }
-      
-}
-
-export const Photo = ({imgObject}: IPhoto) => {
+export const Photo = ( {imgObject} : { imgObject: IPhoto}) => {
   return (
     <Container fluid>
         <header className="text-center">

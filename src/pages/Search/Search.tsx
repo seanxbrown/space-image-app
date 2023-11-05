@@ -5,10 +5,11 @@ import { GalleryModal } from '../../components/GalleryModal';
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove } from "../../config/firebaseConfig"
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from "../../contexts/AuthContext";
+import { IPhoto } from "../../types/types";
 
 export const Search = () => {
 
-  const [photos, setPhotos] = useState<any[] | undefined>([])
+  const [photos, setPhotos] = useState<IPhoto[] | undefined>([])
   const [addingImage, setAddingImage] = useState<boolean>(false)
   const [userGalleries, setUserGalleries] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
@@ -162,17 +163,13 @@ export const Search = () => {
       {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
 
       <Container id="search-results">
-        {loading ? <Spinner animation="border" role="status" variant="secondary"/> : photos && photos.map((photo: any) => {
+        {loading ? <Spinner animation="border" role="status" variant="secondary"/> : photos && photos.map((photo: IPhoto) => {
           return <Photo imgObject={photo} />
         })}
       </Container>
-
       
       { photos!.length > 0  && <Button variant="light" onClick={openGalleryModal}>Add to Gallery</Button> }
 
-        
-
-      
     </Container>
   )
 }
