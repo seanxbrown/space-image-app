@@ -5,13 +5,13 @@ import { GalleryModal } from '../../components/GalleryModal';
 import { db, setDoc, doc, getDoc, collection, getDocs, addDoc, updateDoc, arrayUnion, arrayRemove } from "../../config/firebaseConfig"
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from "../../contexts/AuthContext";
-import { IPhoto } from "../../types/types";
+import { IPhoto, IGallery } from "../../types/types";
 
 export const Search = () => {
 
   const [photos, setPhotos] = useState<IPhoto[] | undefined>([])
   const [addingImage, setAddingImage] = useState<boolean>(false)
-  const [userGalleries, setUserGalleries] = useState<any>([])
+  const [userGalleries, setUserGalleries] = useState<IGallery[] | null>([])
   const [loading, setLoading] = useState<boolean>(false)
   const user = useContext(AuthContext)
 
@@ -76,12 +76,18 @@ export const Search = () => {
 
     //Alert if gallery name already exists
 
-    for (let userGallery of userGalleries) {
-      if(name === userGallery.name && !userGallery.isDeleted) {
-        alert("Gallery with that name already exists")
-        return
+    if (userGalleries) {
+
+      for (let userGallery of userGalleries) {
+        if(name === userGallery.name && !userGallery.isDeleted) {
+          alert("Gallery with that name already exists")
+          return
+        }
       }
+
     }
+
+    
 
 
     //User has selected an existing gallery

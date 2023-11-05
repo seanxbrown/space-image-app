@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { Button, Modal, Form } from "react-bootstrap"
 import { ExistingGalleryFields } from './ExistingGalleryFields'
+import { IGallery } from "../types/types"
 
-export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page, galleries, photos} : {creatingGallery: boolean, closeModal: any, submitFunction: any, page: "search" | "gallery", galleries: unknown[] | null, photos?: unknown[] | undefined | null}) => {
+export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page, galleries, photos} : {creatingGallery: boolean, closeModal: any, submitFunction: any, page: "search" | "gallery", galleries: IGallery[] | null, photos?: unknown[] | undefined | null}) => {
     const newGalleryNameRef = useRef<HTMLInputElement | null>(null)
     const existingGalleryRef = useRef<HTMLSelectElement | null>(null)
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

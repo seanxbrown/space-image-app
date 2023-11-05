@@ -1,7 +1,5 @@
 export interface IPhoto {
 
-    
-    
     "date": string;
     "explanation": string;
     "hdurl": string;
@@ -11,6 +9,12 @@ export interface IPhoto {
     "url": string;
     "id": string;
     "isDeleted": boolean
-    
       
+}
+
+export interface IGallery {
+    photos: Array<IPhoto>;
+    id: string;
+    name: string;
+    isDeleted: boolean;
 }
