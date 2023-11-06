@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom"
-import { useState, useEffect, useContext, Suspense } from "react"
+import { useState, useEffect, useContext } from "react"
 import { doc, getDoc, db, updateDoc, arrayRemove, arrayUnion } from "../../config/firebaseConfig"
 import { AuthContext } from "../../contexts/AuthContext"
 import { Row, Container, Button, Col, Alert, Modal } from "react-bootstrap"
 import { GalleryImage } from "./GalleryImage"
 import { GalleryImageDetail } from "./GalleryImageDetail"
-import { IGallery, IPhoto } from "../../types/types"
+import { IPhoto } from "../../types/types"
 
 export const Gallery = () => {
   const [currentGallery, setCurrentGallery] = useState<any>(null)
@@ -57,10 +57,9 @@ export const Gallery = () => {
   }
 
   async function deletePhoto() {
-
     try {
       const docRef = doc(db, `users/${user!.uid}/galleries/${currentGallery!.id}`)
-      const updatedPhoto = {...selectedPhoto}
+      const updatedPhoto = { ...selectedPhoto }
       updatedPhoto.isDeleted = true
       await updateDoc(docRef, {
         photos: arrayRemove(selectedPhoto)
@@ -74,15 +73,10 @@ export const Gallery = () => {
     } catch(e) {
       alert(e)
     }
-    
-
   }
 
-  
-  
   useEffect(()=> {
     getGalleryData(galleryID)
-
   }, [])
   
   return (
@@ -111,7 +105,7 @@ export const Gallery = () => {
       <Container fluid>
         <Row xs={3} md={4} lg={9}>
           { currentGallery?.photos?.map((photo: IPhoto) => {
-            if(!photo.isDeleted) {
+            if (!photo.isDeleted) {
               return <GalleryImage photo={photo} inHD={inHD} selectPhoto={selectPhoto} />
             }}
           ) 
@@ -122,14 +116,13 @@ export const Gallery = () => {
       { viewImageDetail && <GalleryImageDetail photo={selectedPhoto} show={viewImageDetail} closeImageDetail={closeImageDetail} openPhotoDeletionAlert={openPhotoDeletionAlert}/>}
       { deletingPhoto && <Modal centered show={deletingPhoto} onHide={closePhotoDeletionAlert} className="z-3">
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Body > Delete photo?</Modal.Body>
+        <Modal.Body> Delete photo?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={deletePhoto}>Yes</Button>
           <Button variant="secondary" onClick={closePhotoDeletionAlert}>No</Button>
         </Modal.Footer>
         </Modal>
       }
-
     </Container>
   )
 }

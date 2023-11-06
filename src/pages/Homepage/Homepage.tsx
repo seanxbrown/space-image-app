@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom"
 import { Container, Row, Col } from "react-bootstrap"
-import { useContext } from "react"
 import { auth, signInAnonymously } from "../../config/firebaseConfig"
 
 export const Homepage = () => {
 
   async function signGuestIn() {
-
     try {
       await signInAnonymously(auth)
     } catch(e) {
       alert(e)
     }
-
   }
-
 
   return (
     <Container fluid className="text-light vh-100 d-flex justify-content-center align-items-center flex-column" id="homepage-hero">

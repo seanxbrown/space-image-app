@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { db, setDoc, doc, getDoc, collection, getDocs, addDoc } from "../../config/firebaseConfig"
+import { db, setDoc, doc, collection, getDocs } from "../../config/firebaseConfig"
 import { AuthContext } from '../../contexts/AuthContext'
 import { Button, Row, Col, ListGroup, Container } from "react-bootstrap"
 import { v4 as uuidv4 } from 'uuid';
@@ -21,7 +21,6 @@ export const Galleries = () => {
     catch(e) {
       console.error(e)
     }
-
   }
 
   function openGalleryModal() {
@@ -33,7 +32,6 @@ export const Galleries = () => {
   }
 
   async function createGallery(name: string) {
-
     if (name === "") {
       alert("Enter a gallery name")
        return
@@ -52,9 +50,7 @@ export const Galleries = () => {
         id: galleryID,
         photos: [],
         isDeleted: false
-
       })
-  
     closeGalleryModal()
       getGalleries()
   }
@@ -86,7 +82,6 @@ export const Galleries = () => {
           }
         )}
       </ListGroup>
-      
     </Container>
   )
 }

@@ -2,8 +2,6 @@ import { initializeApp, } from "firebase/app";
 import { getAuth, onAuthStateChanged, signInAnonymously, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, updateProfile, User } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDoc, getDocs, doc, setDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyBNgGYKRZ-WyUb2zXOsQus2I5zqZ_COxUw",
   authDomain: "space-image-app.firebaseapp.com",
@@ -17,7 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app)
-
 
 export { 
   app, 

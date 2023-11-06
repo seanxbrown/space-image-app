@@ -1,6 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { auth, createUserWithEmailAndPassword, db, collection, addDoc, setDoc, doc, updateProfile, User } from "../../config/firebaseConfig"
+import { auth, createUserWithEmailAndPassword, db, setDoc, doc, updateProfile, User } from "../../config/firebaseConfig"
 import { FormEvent, useRef, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 
@@ -13,39 +13,32 @@ export const Signup = () => {
     
     async function createUserAccount(e: FormEvent) {
         e.preventDefault()
-
         if (passwordRef.current!.value !== passwordConRef.current!.value) {
             alert("Password details do not match")
-
         } else {
             try {
-                const {user: userCredentials} = await createUserWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
+                const { user: userCredentials } = await createUserWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
                 await updateProfile(userCredentials, {
                     displayName: usernameRef.current!.value
                 })
                 await addUserToDB(userCredentials)
                 alert("Account created successfully");
-                
                 emailRef.current!.value = "";
                 passwordRef.current!.value = "";
                 passwordConRef.current!.value = "";
                 usernameRef.current!.value = "";
-              
             } catch(e){
                 alert(e)
             }
-    
         }
-        
     }
 
-    async function addUserToDB({uid, displayName = "Unknown username", email}: User) {
+    async function addUserToDB({ uid, displayName = "Unknown username", email }: User) {
         try {
-            await setDoc(doc(db, "users", uid ), {
+            await setDoc(doc(db, "users", uid), {
                     name: displayName,
                     email: email,
                 }) 
-
                 
         } catch(e) {
             alert(e)

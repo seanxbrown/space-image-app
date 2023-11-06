@@ -9,25 +9,19 @@ export const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const user = useContext(AuthContext)
-
   async function logUserIn(e: FormEvent) {
     e.preventDefault()
-
-    if (user !== null){
+    if (user !== null) {
       alert("Error: are you already logged in?")
       return
-    } 
-    
-    else if (user === null){
+    } else if (user === null) {
       try {
         await signInWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
         alert("Log in successful")
       } catch(e) {
         alert(e)
       }
-
     }
-
   }
   return (
     <Container fluid className="py-5 text-light bg-dark">

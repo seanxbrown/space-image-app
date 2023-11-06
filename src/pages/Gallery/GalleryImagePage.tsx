@@ -16,7 +16,6 @@ export const GalleryImagePage = () => {
     
 
     async function deletePhoto() {
-
         try {
             const docRef = doc(db, `users/${user!.uid}/galleries/${galleryID}`)
             const newPhoto = {...selectedPhoto}
@@ -24,40 +23,32 @@ export const GalleryImagePage = () => {
             await updateDoc(docRef, {
                 photos: arrayRemove(selectedPhoto)
             })
-
             await updateDoc(docRef, {
                 photos: arrayUnion(newPhoto)
             })
-
             navigate(`/space-image-app/galleries/${galleryID}`)
         } catch(e) {
             console.log(e)
         }
-
     }
-
 
     async function getImageData() {
         const docRef = doc(db, `users/${user!.uid}/galleries/${galleryID}`)
         const docSnap = await getDoc(docRef)
-        
         setSelectedPhoto(docSnap.data()?.photos.filter((photo: IPhoto)=> photo.id === imageID)[0])
-        
     }
-
 
 useEffect(() => {
     getImageData()
-
 }, [])
    
-
   return (
     <Container fluid className="pb-5">
-        { deleting && <Alert variant="danger" dismissible onClose={()=> setDeleting(false)}>
-                        <p>Delete this photo?</p>
-                        <Button variant="primary" type="button" onClick={deletePhoto}>Yes</Button>
-                        <Button variant="primary" type="button" onClick={()=> setDeleting(false)}>No</Button>
+        { deleting && 
+            <Alert variant="danger" dismissible onClose={()=> setDeleting(false)}>
+                <p>Delete this photo?</p>
+                <Button variant="primary" type="button" onClick={deletePhoto}>Yes</Button>
+                <Button variant="primary" type="button" onClick={()=> setDeleting(false)}>No</Button>
             </Alert>
         }
         <Row>
@@ -70,7 +61,6 @@ useEffect(() => {
                 <Button variant="light" type="button" onClick={()=> setIsHD(!isHD)}>{isHD ? "HD On" : "HD Off"} </Button>
             </Col>
         </Row>
-        
         <Container>
             <Image src={isHD ? selectedPhoto?.hdurl : selectedPhoto?.url} className="w-100"/>
         </Container>

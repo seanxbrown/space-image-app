@@ -13,25 +13,23 @@ export const GalleryModal = ({creatingGallery, closeModal, submitFunction, page,
         } else {
             submitFunction(newGalleryNameRef.current?.value, existingGalleryRef.current?.value);
         }
-        
     }
  
   return (
     <Modal show={creatingGallery} onHide={closeModal}>
         <Modal.Header closeButton>
-            {page === "gallery" ? <Modal.Title>Create New Gallery</Modal.Title> : <Modal.Title>Save Image</Modal.Title> }
+            { page === "gallery" ? <Modal.Title>Create New Gallery</Modal.Title> : <Modal.Title>Save Image</Modal.Title> }
         </Modal.Header>
         <Modal.Body>
             <Form onSubmit={handleSubmit}>
-                {page === "search" && <ExistingGalleryFields existingGalleryRef={existingGalleryRef} galleries={galleries}/> }
+                { page === "search" && <ExistingGalleryFields existingGalleryRef={existingGalleryRef} galleries={galleries}/> }
                 <Form.Group className="mb-3" id="gallery-name-input">
-                    {page === "gallery" ? <Form.Label>Gallery Name</Form.Label> : <Form.Label>Add to New Gallery</Form.Label> }
+                    { page === "gallery" ? <Form.Label>Gallery Name</Form.Label> : <Form.Label>Add to New Gallery</Form.Label> }
                     <Form.Control ref={newGalleryNameRef} type="text" maxLength={20} placeholder="Solar System" />
                 </Form.Group>
                 <Button type="submit" variant="primary">Create</Button>
             </Form>
         </Modal.Body>
-        
     </Modal>
   )
 }

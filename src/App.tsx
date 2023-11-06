@@ -40,14 +40,11 @@ function App() {
                 <Route path="/space-image-app/galleries" element={<Galleries />} />
                 <Route path="/space-image-app/galleries/:galleryID" element={<Gallery />} />
                 <Route path="/space-image-app/galleries/:galleryID/:imageID" element={<GalleryImagePage />} />
-              </Route>
-              
+              </Route>  
             </Routes>
         </div>
       </Router>
     </AuthContext.Provider>
-    
-  
   )
 }
 
