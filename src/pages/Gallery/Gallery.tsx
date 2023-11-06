@@ -18,7 +18,7 @@ export const Gallery = () => {
   const user = useContext(AuthContext)
   const navigate = useNavigate()
 
-  async function getGalleryData(id: any) {
+  async function getGalleryData(id: string | undefined) {
     const docRef = doc(db, `users/${user!.uid}/galleries/${id}`)
     const docSnap = await getDoc(docRef)
     setCurrentGallery(docSnap.data())
