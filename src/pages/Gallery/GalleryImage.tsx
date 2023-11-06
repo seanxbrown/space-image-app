@@ -2,7 +2,7 @@ import { Col, Image } from "react-bootstrap"
 import { useState } from "react"
 import { IPhoto } from "../../types/types"
 
-export const GalleryImage = ({ photo, inHD, selectPhoto }: { photo: IPhoto, inHD: boolean, selectPhoto: any }) => {
+export const GalleryImage = ({ photo, inHD, selectPhoto }: { photo: IPhoto, inHD: boolean, selectPhoto: (string: string) => void }) => {
   const [hovering, setHovering] = useState<boolean>(false)
 
   return (

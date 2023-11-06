@@ -2,7 +2,7 @@ import { Modal, Button } from "react-bootstrap"
 import { formatDate } from "../../utils/utils"
 import { IPhoto } from "../../types/types"
 
-export const GalleryImageDetail = ( {photo, show, closeImageDetail, openPhotoDeletionAlert } : { photo: IPhoto | null, show: boolean, closeImageDetail: any, openPhotoDeletionAlert:any}) => {
+export const GalleryImageDetail = ( {photo, show, closeImageDetail, openPhotoDeletionAlert } : { photo: IPhoto | null, show: boolean, closeImageDetail: () => void, openPhotoDeletionAlert: ()=> void}) => {
   return (
     <Modal show={show} fullscreen={true} onHide={closeImageDetail} className="vh-100 vw-100">
       <Modal.Header closeButton>
