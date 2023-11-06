@@ -1,6 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { auth, createUserWithEmailAndPassword, db, collection, addDoc, setDoc, doc, updateProfile } from "../../config/firebaseConfig"
+import { auth, createUserWithEmailAndPassword, db, collection, addDoc, setDoc, doc, updateProfile, User } from "../../config/firebaseConfig"
 import { FormEvent, useRef, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 
@@ -39,7 +39,7 @@ export const Signup = () => {
         
     }
 
-    async function addUserToDB({uid, displayName = "Unknown username", email}: any) {
+    async function addUserToDB({uid, displayName = "Unknown username", email}: User) {
         try {
             await setDoc(doc(db, "users", uid ), {
                     name: displayName,
