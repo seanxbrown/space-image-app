@@ -1,5 +1,5 @@
 import { Container, Button, ButtonGroup, Spinner, Row, Col } from "react-bootstrap"
-import { useState, useContext, useEffect, Suspense } from "react"
+import { useState, useContext, useEffect } from "react"
 import { Photo } from "./Photo"
 import { GalleryModal } from '../../components/GalleryModal';
 import { db, setDoc, doc, getDoc, collection, getDocs, updateDoc, arrayUnion } from "../../config/firebaseConfig"
@@ -141,11 +141,23 @@ export const Search = () => {
       </Row>
       {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
       <Container id="search-results">
-        {loading ? <Spinner animation="border" role="status" variant="secondary"/> : photos && photos.map((photo: IPhoto) => {
-          return <Photo imgObject={photo} />
+        { loading ? <Spinner animation="border" role="status" variant="secondary"/> : photos && photos.map((photo: IPhoto) => {
+          return <Container fluid>
+            { photo.media_type === "video" ? 
+              <h3>This result is a YouTube video, which is currently unsupported.</h3>
+              : <Photo imgObject={photo} /> 
+            }
+            </Container>
         })}
       </Container>
-      { photos!.length > 0  && <Button variant="light" onClick={openGalleryModal}>Add to Gallery</Button> }
+      { photos!.length > 0  && 
+        <Button 
+          variant="light" 
+          disabled={photos![0].media_type === "video"} 
+          onClick={openGalleryModal}
+          >
+            Add to Gallery
+            </Button> }
     </Container>
   )
 }

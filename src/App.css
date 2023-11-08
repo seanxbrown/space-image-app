@@ -32,9 +32,6 @@
 
 }
 
-#navbar {
-}
-
 @media only screen and (min-width: 1440px) {
   #homepage-hero {
     background-image: url("./assets/landing-image-2-lg.jpg")
