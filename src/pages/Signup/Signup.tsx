@@ -1,5 +1,5 @@
 import { Container, Form, Button } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { auth, createUserWithEmailAndPassword, db, setDoc, doc, updateProfile, User } from "../../config/firebaseConfig"
 import { FormEvent, useRef, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
@@ -10,6 +10,7 @@ export const Signup = () => {
     const passwordConRef = useRef<HTMLInputElement>(null)
     const usernameRef = useRef<HTMLInputElement>(null)
     const user = useContext(AuthContext)
+    const navigate = useNavigate()
     
     async function createUserAccount(e: FormEvent) {
         e.preventDefault()
@@ -27,6 +28,7 @@ export const Signup = () => {
                 passwordRef.current!.value = "";
                 passwordConRef.current!.value = "";
                 usernameRef.current!.value = "";
+                navigate("/space-image-app/search")
             } catch(e){
                 alert(e)
             }

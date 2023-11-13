@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Container, Row, Col } from "react-bootstrap"
 import { auth, signInAnonymously } from "../../config/firebaseConfig"
 
 export const Homepage = () => {
+  const navigate = useNavigate()
+
 
   async function signGuestIn() {
     try {
       await signInAnonymously(auth)
+      alert("Signed in as guest")
+      navigate("/space-image-app/search")
+
     } catch(e) {
       alert(e)
     }

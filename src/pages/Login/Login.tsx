@@ -1,14 +1,14 @@
 import { Container, Form, Button } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { auth, signInWithEmailAndPassword } from "../../config/firebaseConfig"
 import { useRef, useContext, FormEvent } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 
 export const Login = () => {
-
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const user = useContext(AuthContext)
+  const navigate = useNavigate()
   async function logUserIn(e: FormEvent) {
     e.preventDefault()
     if (user !== null) {
@@ -18,6 +18,7 @@ export const Login = () => {
       try {
         await signInWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value)
         alert("Log in successful")
+        navigate("/space-image-app/search")
       } catch(e) {
         alert(e)
       }
