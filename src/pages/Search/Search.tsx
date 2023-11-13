@@ -1,5 +1,5 @@
-import { Container, Button, ButtonGroup, Spinner, Row, Col } from "react-bootstrap"
-import { useState, useContext, useEffect } from "react"
+import { Container, Button, ButtonGroup, Spinner, Row, Col, Form } from "react-bootstrap"
+import { useState, useContext, useEffect, useRef, FormEvent } from "react"
 import { Photo } from "./Photo"
 import { GalleryModal } from '../../components/GalleryModal';
 import { db, setDoc, doc, getDoc, collection, getDocs, updateDoc, arrayUnion } from "../../config/firebaseConfig"
@@ -14,6 +14,7 @@ export const Search = () => {
   const [userGalleries, setUserGalleries] = useState<IGallery[] | null>([])
   const [loading, setLoading] = useState<boolean>(false)
   const user = useContext(AuthContext)
+  const dateRef = useRef<HTMLInputElement | null>(null)
 
   async function getRandomImage() {
 
@@ -123,6 +124,23 @@ export const Search = () => {
     }
   }
 
+  async function searchByDate(e: FormEvent) {
+    e.preventDefault()
+    const selectedDate = dateRef!.current!.value!
+    try {
+      const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${import.meta.env.VITE_API_KEY}&date=${selectedDate}`)
+      const data = await response.json()
+      if (data.code === 400) {
+        alert(data.msg)
+        return
+      } else {
+        setPhotos([data])
+      }
+    } catch(e) {
+      alert(e)
+    }
+  }
+
   useEffect(()=> {
     getGalleries()
   }, [])
@@ -131,12 +149,23 @@ export const Search = () => {
     <Container className="pb-5">
       <Row>
         <Col> 
-          <h2 className="text-light">Search</h2> </Col>
+          <h2 className="text-light">Search</h2>
+        </Col>
         <Col>
-        <ButtonGroup id="search-button-container" className="m-auto">
-          <Button variant="light" onClick={getRandomImage}>Random Image</Button>
-          <Button className=" ms-1" variant="light" onClick={getTodaysImage}>Today's Image</Button>
-        </ButtonGroup>
+          <ButtonGroup id="search-button-container" className="m-auto">
+            <Button variant="light" onClick={getRandomImage}>Random Image</Button>
+            <Button className=" ms-1" variant="light" onClick={getTodaysImage}>Today's Image</Button>
+          </ButtonGroup>
+        </Col>
+        <Col>
+          <Form onSubmit={searchByDate}>
+            <Form.Group>
+              <Form.Control type="date" ref={dateRef} />
+            </Form.Group>
+            <Button type="submit" className="w-100">
+              Search By Date
+            </Button>
+          </Form>
         </Col>
       </Row>
       {addingImage ? <GalleryModal creatingGallery={addingImage} closeModal={closeGalleryModal} submitFunction={addToGallery} page="search" galleries={userGalleries} photos={photos}/> : null }
