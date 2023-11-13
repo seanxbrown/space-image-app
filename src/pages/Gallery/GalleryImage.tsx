@@ -12,7 +12,7 @@ export const GalleryImage = ({ photo, inHD, selectPhoto }: { photo: IPhoto, inHD
       onMouseEnter={()=> setHovering(true)}
       onMouseLeave={() => setHovering(false)} 
     >
-      <Image className="w-100 h-100" src={inHD ? photo.hdurl : photo.url} fluid />
+      <Image className="gallery-image" src={inHD ? photo.hdurl : photo.url} fluid />
       <div 
         className="gallery-image-title w-100 h-100 d-flex justify-content-center align-items-center"
         style={{opacity: hovering? 1 : 0}}
