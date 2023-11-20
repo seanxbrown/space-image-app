@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { Homepage } from "./pages/Homepage/Homepage"
 import { Login } from "./pages/Login/Login"
 import { Signup } from "./pages/Signup/Signup"
@@ -40,7 +40,8 @@ function App() {
                 <Route path="/space-image-app/galleries" element={<Galleries />} />
                 <Route path="/space-image-app/galleries/:galleryID" element={<Gallery />} />
                 <Route path="/space-image-app/galleries/:galleryID/:imageID" element={<GalleryImagePage />} />
-              </Route>  
+              </Route>
+              <Route path="*" element={<Navigate to="/space-image-app" /> } />  
             </Routes>
         </div>
       </Router>
